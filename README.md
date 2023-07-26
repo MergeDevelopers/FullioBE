@@ -11,7 +11,10 @@
 
 <details><summary>7월 25일</summary>
  -AWS IAM 설정
+
  -로그인 페이지 리팩토링 시작
+ 
  -자바로 시큐리티와 토큰 구현
+
 </details>
 </details>
