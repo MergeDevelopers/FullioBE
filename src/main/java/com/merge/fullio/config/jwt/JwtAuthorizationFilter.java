@@ -3,7 +3,7 @@ package com.merge.fullio.config.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.merge.fullio.config.auth.PrincipalDetails;
-import com.merge.fullio.model.User;
+import com.merge.fullio.model.user.User;
 import com.merge.fullio.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

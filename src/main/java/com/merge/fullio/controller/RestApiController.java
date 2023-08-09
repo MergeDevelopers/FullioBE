@@ -1,6 +1,7 @@
 package com.merge.fullio.controller;
 
-import com.merge.fullio.model.User;
+import com.merge.fullio.model.user.Role;
+import com.merge.fullio.model.user.User;
 import com.merge.fullio.repository.UserRepository;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class RestApiController {
     @PostMapping("join")
     public String join(@RequestBody User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles("ROLE_USER");
+        user.setRole(Role.ROLE_USER);
         userRepository.save(user);
         return "회원가입완료";
     }
