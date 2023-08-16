@@ -1,6 +1,6 @@
 package com.merge.fullio.config.auth;
 
-import com.merge.fullio.model.User;
+import com.merge.fullio.model.user.User;
 import com.merge.fullio.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

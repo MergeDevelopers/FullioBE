@@ -1,10 +1,12 @@
 package com.merge.fullio.config.auth;
 
-import com.merge.fullio.model.User;
+import com.merge.fullio.model.user.Role;
+import com.merge.fullio.model.user.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
@@ -20,9 +22,12 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        user.getRoleList().forEach(r-> {
-            authorities.add(()->r);
-        });
+//        user.getRoleList().forEach(r-> {
+//            authorities.add(()->r);
+//        });
+        Role role = user.getRole();
+        authorities.add(new SimpleGrantedAuthority(role.toString()));
+
         return authorities;
     }
 
