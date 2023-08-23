@@ -13,12 +13,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class WriterEntity extends TimeEntity {
 
     @CreatedBy
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
     private User createdBy;
 
     @LastModifiedBy
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "modified_by")
     private User modifiedBy;
 }
