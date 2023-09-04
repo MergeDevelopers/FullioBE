@@ -33,7 +33,7 @@ public class MainInfoService {
         return new StrengthDTO(strength.getId(), strength.getStrength_1(), strength.getStrength_2(), strength.getStrength_3(), strength.getStrength_4(), strength.getStrength_5(), strength.getMotto());
     }
 
-    public SkillDTO getSkillDTO(User user){
+    public SkillDTO getSkillInfo(User user){
         User user1 = userRepository.findByUsername(user.getUsername());
         Optional<Skill> skillOptional = skillRepository.findByCreatedBy(user1);
         Skill skill = skillOptional.get();
