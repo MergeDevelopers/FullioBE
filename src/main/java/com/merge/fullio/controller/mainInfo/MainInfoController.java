@@ -41,11 +41,11 @@ public class MainInfoController {
     }
 
 
-    @PostMapping("/skill")
+   /* @PostMapping("/skill")
     @ResponseStatus(HttpStatus.CREATED)
     public void inputSills(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
             @RequestBody SkillRequest skillRequest){
         mainInfoService.saveSkill(skillRequest, principalDetails.getUser());
-    }
+    }*/
 }
