@@ -51,7 +51,7 @@ public class MainInfoService {
     }
 
 
-    public void saveSkill(SkillRequest skillRequest, User user) {
+    /*public void saveSkill(SkillRequest skillRequest, User user) {
         Optional<Strength> strengthOptional = strengthRepository.findByCreatedBy(user);
         if(strengthOptional.isPresent()){
 //            Strength strength = strengthOptional.get();
@@ -65,5 +65,5 @@ public class MainInfoService {
             }
         }
 
-    }
+    }*/
 }

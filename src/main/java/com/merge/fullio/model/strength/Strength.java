@@ -33,26 +33,6 @@ public class Strength extends WriterEntity {
     @Column
     private int strength_5;
 
-    @ElementCollection
-    @CollectionTable(name = "skill")
-    @Column(name = "skill1")
-    private List<String> skill_1;
-
-    @ElementCollection
-    @CollectionTable(name = "skill")
-    @Column(name = "skill2")
-    private List<String> skill_2;
-
-    @ElementCollection
-    @CollectionTable(name = "skill")
-    @Column(name = "skill3")
-    private List<String> skill_3;
-
-    @ElementCollection
-    @CollectionTable(name = "skill")
-    @Column(name = "skill4")
-    private List<String> skill_4;
-
     @Column
     private String motto;
 
@@ -69,14 +49,14 @@ public class Strength extends WriterEntity {
         this.motto = motto;
     }
 
-    public Strength(int number, List<String> skills){
-        switch (number) {
-            case 1 : this.skill_1 = skills;
-            case 2 : this.skill_2 = skills;
-            case 3 : this.skill_3 = skills;
-            case 4 : this.skill_4 = skills;
-        }
-    }
+//    public Strength(int number, List<String> skills){
+//        switch (number) {
+//            case 1 : this.skill_1 = skills;
+//            case 2 : this.skill_2 = skills;
+//            case 3 : this.skill_3 = skills;
+//            case 4 : this.skill_4 = skills;
+//        }
+//    }
 
 
 }
