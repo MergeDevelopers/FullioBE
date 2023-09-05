@@ -29,6 +29,6 @@ public class UserDTO {
     private String phoneNumber;
 
     public static UserDTO of(User user){
-        return new UserDTO(user.getId(), user.getUserNumber(), user.getUsername(), user.getNickName(), user.getEmail(), user.getPhoneNumber());
+        return new UserDTO(user.getId(), user.getUsername(), user.getRealname(), user.getNickName(), user.getEmail(), user.getPhoneNumber());
     }
 }

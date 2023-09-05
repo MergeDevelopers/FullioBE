@@ -1,6 +1,6 @@
 package com.merge.fullio.controller.mainInfo;
 
-import com.merge.fullio.DTO.skill.SkillDTO;
+import com.merge.fullio.DTO.strength.SkillRequest;
 import com.merge.fullio.DTO.strength.StrengthDTO;
 import com.merge.fullio.DTO.user.UserDTO;
 import com.merge.fullio.config.auth.PrincipalDetails;
@@ -40,11 +40,12 @@ public class MainInfoController {
 
     }
 
-    @GetMapping("/skill")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseData<SkillDTO> getSkillInfo(
-            @AuthenticationPrincipal PrincipalDetails principalDetails){
-        SkillDTO skillDTO = mainInfoService.getSkillInfo(principalDetails.getUser());
-        return new ResponseData<>(skillDTO);
+
+    @PostMapping("/skill")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void inputSills(
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            @RequestBody SkillRequest skillRequest){
+        mainInfoService.saveSkill(skillRequest, principalDetails.getUser());
     }
 }
