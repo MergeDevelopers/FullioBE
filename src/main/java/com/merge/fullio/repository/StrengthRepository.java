@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface StrengthRepository extends JpaRepository<Strength, Integer> {
+public interface StrengthRepository extends JpaRepository<Strength, Long> {
 
     Optional<Strength> findByCreatedBy(User user);
 }

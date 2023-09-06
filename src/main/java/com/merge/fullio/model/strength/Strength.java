@@ -49,14 +49,7 @@ public class Strength extends WriterEntity {
         this.motto = motto;
     }
 
-//    public Strength(int number, List<String> skills){
-//        switch (number) {
-//            case 1 : this.skill_1 = skills;
-//            case 2 : this.skill_2 = skills;
-//            case 3 : this.skill_3 = skills;
-//            case 4 : this.skill_4 = skills;
-//        }
-//    }
+
 
 
 }

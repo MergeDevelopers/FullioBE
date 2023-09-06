@@ -18,9 +18,9 @@ public class UserDTO {
 
     private long id;
 
-    private String userNumber;
-
     private String username;
+
+    private String name;
 
     private String nickName;
 
@@ -29,6 +29,6 @@ public class UserDTO {
     private String phoneNumber;
 
     public static UserDTO of(User user){
-        return new UserDTO(user.getId(), user.getUsername(), user.getRealname(), user.getNickName(), user.getEmail(), user.getPhoneNumber());
+        return new UserDTO(user.getId(), user.getUsername(), user.getName(), user.getNickName(), user.getEmail(), user.getPhoneNumber());
     }
 }

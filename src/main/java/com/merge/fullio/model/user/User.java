@@ -23,7 +23,7 @@ public class User extends TimeEntity {
     private String username;
 
     @Column
-    private String realname;
+    private String name;
 
     @Column
     private String nickName;
@@ -41,10 +41,10 @@ public class User extends TimeEntity {
     private Role role;
 
 
-    public User (String username, String password, String realname, String email, Role role) {
+    public User (String username, String password, String name, String email, Role role) {
         this.username = username;
         this.password = password;
-        this.realname = realname;
+        this.name = name;
         this.email = email;
         this.role = role;
     }
