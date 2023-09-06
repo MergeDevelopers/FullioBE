@@ -8,6 +8,8 @@ server:
       force: true
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/fullio_java?serverTimezone=Asia/Seoul
@@ -21,4 +23,3 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
     database: mysql
-
