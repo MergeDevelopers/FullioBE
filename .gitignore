@@ -5,6 +5,8 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
+src/main/resources/application-localdb.yml
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -220,6 +222,5 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-.yml
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,gradle,windows,macos,java,visualstudiocode
