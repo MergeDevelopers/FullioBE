@@ -20,10 +20,10 @@ public class User extends TimeEntity {
     private long id;
 
     @Column(unique = true, nullable = false)
-    private String userNumber;
+    private String username;
 
     @Column
-    private String username;
+    private String name;
 
     @Column
     private String nickName;
@@ -41,18 +41,18 @@ public class User extends TimeEntity {
     private Role role;
 
 
-    public User (String userNumber, String password, String username, String email, Role role) {
-        this.userNumber = userNumber;
-        this.password = password;
+    public User (String username, String password, String name, String email, Role role) {
         this.username = username;
+        this.password = password;
+        this.name = name;
         this.email = email;
         this.role = role;
     }
 
     public int getPeriod() {
-        if (userNumber == null) return 0;
-        if (userNumber.length() != 8) return 0;
-        return Integer.parseInt(userNumber.substring(3, 5));
+        if (username == null) return 0;
+        if (username.length() != 8) return 0;
+        return Integer.parseInt(username.substring(3, 5));
     }
 
 }

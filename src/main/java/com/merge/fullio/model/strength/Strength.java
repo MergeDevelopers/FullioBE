@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,6 +35,20 @@ public class Strength extends WriterEntity {
 
     @Column
     private String motto;
+
+    public Strength(int strength1, int strength2, int strength3, int strength4, int strength5){
+        this.strength_1 = strength1;
+        this.strength_2 = strength2;
+        this.strength_3 = strength3;
+        this.strength_4 = strength4;
+        this.strength_5 = strength5;
+        this.motto = null;
+    }
+
+    public Strength(String motto){
+        this.motto = motto;
+    }
+
 
 
 
