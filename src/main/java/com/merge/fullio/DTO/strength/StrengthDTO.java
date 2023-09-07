@@ -24,8 +24,7 @@ public class StrengthDTO {
 
     private int strength_5;
 
-    private String motto;
     public static StrengthDTO of (Strength strength){
-        return new StrengthDTO(strength.getId(),strength.getStrength_1(), strength.getStrength_2(), strength.getStrength_3(), strength.getStrength_4(), strength.getStrength_5(), strength.getMotto());
+        return new StrengthDTO(strength.getId(),strength.getStrength_1(), strength.getStrength_2(), strength.getStrength_3(), strength.getStrength_4(), strength.getStrength_5());
     }
 }

@@ -1,10 +1,12 @@
 package com.merge.fullio.model.strength;
 
+import com.merge.fullio.DTO.strength.StrengthRequest;
 import com.merge.fullio.model.WriterEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -36,12 +38,12 @@ public class Strength extends WriterEntity {
     @Column
     private String motto;
 
-    public Strength(int strength1, int strength2, int strength3, int strength4, int strength5){
-        this.strength_1 = strength1;
-        this.strength_2 = strength2;
-        this.strength_3 = strength3;
-        this.strength_4 = strength4;
-        this.strength_5 = strength5;
+    public Strength(StrengthRequest strengthRequest){
+        this.strength_1 = strengthRequest.getStrength1();
+        this.strength_2 = strengthRequest.getStrength2();
+        this.strength_3 = strengthRequest.getStrength3();
+        this.strength_4 = strengthRequest.getStrength4();
+        this.strength_5 = strengthRequest.getStrength5();
         this.motto = null;
     }
 
@@ -49,7 +51,17 @@ public class Strength extends WriterEntity {
         this.motto = motto;
     }
 
+    public void setStrength(StrengthRequest strengthRequest){
+        this.strength_1 = strengthRequest.getStrength1();
+        this.strength_2 = strengthRequest.getStrength2();
+        this.strength_3 = strengthRequest.getStrength3();
+        this.strength_4 = strengthRequest.getStrength4();
+        this.strength_5 = strengthRequest.getStrength5();
+    }
 
+    public void setMotto(String motto){
+        this.motto = motto;
+    }
 
 
 }
