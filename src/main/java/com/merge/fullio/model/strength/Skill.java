@@ -1,8 +1,10 @@
 package com.merge.fullio.model.strength;
 
 import aj.org.objectweb.asm.TypeReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.merge.fullio.DTO.strength.SkillRequest;
 import com.merge.fullio.model.WriterEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,95 +21,40 @@ import java.util.List;
 @Getter
 public class Skill extends WriterEntity {
     @Id
-    private long id; // PK로 사용
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-//    @OneToOne
-//    @MapsId
-//    @JoinColumn(name = "strength_id")
-//    private Strength strength;
+    @Column
+    private String skill_1;
 
-    @Column(columnDefinition = "TEXT")
-    private String skills_1; // JSON 데이터를 문자열로 저장
+    @Column
+    private String skill_2;
 
-    @Column(columnDefinition = "TEXT")
-    private String skills_2; // JSON 데이터를 문자열로 저장
+    @Column
+    private String skill_3;
 
-    @Column(columnDefinition = "TEXT")
-    private String skills_3; // JSON 데이터를 문자열로 저장
+    @Column
+    private String skill_4;
 
-    @Column(columnDefinition = "TEXT")
-    private String skills_4; // JSON 데이터를 문자열로 저장
-
-
-
-    /*public List<String> getSkillsDetail(String skillDetail) {
-        if (skillDetail != null && !skillDetail.isEmpty()) {
-            try {
-                // JSON 문자열을 List<String>으로 역직렬화
-                ObjectMapper objectMapper = new ObjectMapper();
-                return objectMapper.readValue(skillDetail, new TypeReference<List<String>>() {});
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return new ArrayList<>(); // 빈 리스트 반환
-    }*/
-
-    public void setSkills_1(List<String> skills) {
-        try {
-            // List<String>을 JSON 문자열로 직렬화
-            ObjectMapper objectMapper = new ObjectMapper();
-            skills_1 = objectMapper.writeValueAsString(skills);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    public Skill(SkillRequest skillRequest){
+        this.skill_1 = convertToString(skillRequest.getSkill_1());
+        this.skill_2 = convertToString(skillRequest.getSkill_2());
+        this.skill_3 = convertToString(skillRequest.getSkill_3());
+        this.skill_4 = convertToString(skillRequest.getSkill_4());
+    }
+    public void setSkill(SkillRequest skillRequest){
+        this.skill_1 = convertToString(skillRequest.getSkill_1());
+        this.skill_2 = convertToString(skillRequest.getSkill_2());
+        this.skill_3 = convertToString(skillRequest.getSkill_3());
+        this.skill_4 = convertToString(skillRequest.getSkill_4());
     }
 
-    public void setSkills_2(List<String> skills) {
-        try {
-            // List<String>을 JSON 문자열로 직렬화
-            ObjectMapper objectMapper = new ObjectMapper();
-            skills_2 = objectMapper.writeValueAsString(skills);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    private String convertToString(List<String> skills){
+        StringBuilder sb = new StringBuilder();
+        String buildSkills = String.valueOf(sb.append(skills.get(0)).append("-").append(skills.get(1)));
+        return buildSkills;
     }
 
-    public void setSkills_3(List<String> skills) {
-        try {
-            // List<String>을 JSON 문자열로 직렬화
-            ObjectMapper objectMapper = new ObjectMapper();
-            skills_3 = objectMapper.writeValueAsString(skills);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setSkills_4(List<String> skills) {
-        try {
-            // List<String>을 JSON 문자열로 직렬화
-            ObjectMapper objectMapper = new ObjectMapper();
-            skills_4 = objectMapper.writeValueAsString(skills);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-    }
-    public void setSKills(int number, List<String> skills){
-        switch (number) {
-            case 1 :
-                setSkills_1(skills);
-                break;
-            case 2 :
-                setSkills_2(skills);
-                break;
-            case 3 :
-                setSkills_3(skills);
-                break;
-            case 4 :
-                setSkills_4(skills);
-                break;
-        }
-    }
 
 
 }
