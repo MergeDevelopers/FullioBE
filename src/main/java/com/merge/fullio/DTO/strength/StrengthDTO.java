@@ -12,8 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class StrengthDTO {
 
-    private long id;
-
     private int strength_1;
 
     private int strength_2;
@@ -25,6 +23,6 @@ public class StrengthDTO {
     private int strength_5;
 
     public static StrengthDTO of (Strength strength){
-        return new StrengthDTO(strength.getId(),strength.getStrength_1(), strength.getStrength_2(), strength.getStrength_3(), strength.getStrength_4(), strength.getStrength_5());
+        return new StrengthDTO(strength.getStrength_1(), strength.getStrength_2(), strength.getStrength_3(), strength.getStrength_4(), strength.getStrength_5());
     }
 }

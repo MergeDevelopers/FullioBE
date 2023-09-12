@@ -4,6 +4,7 @@ import com.merge.fullio.DTO.strength.*;
 import com.merge.fullio.DTO.user.UserDTO;
 import com.merge.fullio.exception.clienterror._400.BadRequestException;
 import com.merge.fullio.exception.clienterror._400.EntityNotFoundException;
+import com.merge.fullio.exception.clienterror._400.ExistEntityException;
 import com.merge.fullio.model.strength.Skill;
 import com.merge.fullio.model.strength.Strength;
 import com.merge.fullio.model.user.User;
@@ -13,8 +14,11 @@ import com.merge.fullio.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +36,7 @@ public class MainInfoService {
         Optional<Strength> strengthOptional = strengthRepository.findByCreatedBy(user);
         if(strengthOptional.isPresent()){
             Strength strength = strengthOptional.get();
-            return new StrengthDTO(strength.getId(), strength.getStrength_1(), strength.getStrength_2(), strength.getStrength_3(), strength.getStrength_4(), strength.getStrength_5());
+            return new StrengthDTO(strength.getStrength_1(), strength.getStrength_2(), strength.getStrength_3(), strength.getStrength_4(), strength.getStrength_5());
         } else {
             return new StrengthDTO();
         }
@@ -46,44 +50,64 @@ public class MainInfoService {
             strengthRepository.save(strength);
         } else {
             Strength strength = strengthOptional.get();
-            strength.setStrength(strengthRequest);
+            boolean check = Stream.of(strength.getStrength_1(), strength.getStrength_2(), strength.getStrength_3(), strength.getStrength_4(), strength.getStrength_5())
+                    .anyMatch(num -> num != null);
+            if(check){
+                throw new ExistEntityException(user.getName(), Strength.class);
+            } else {
+                strength.setStrength(strengthRequest);
+                strengthRepository.save(strength);
+            }
         }
     }
 
     public void updateStrength(StrengthRequest strengthRequest, User user){
         Strength strength = strengthRepository.findByCreatedBy(user)
-                .orElseThrow(() -> new EntityNotFoundException());
+                .orElseThrow(() -> new EntityNotFoundException(user.getName(), Strength.class));
         strength.setStrength(strengthRequest);
         strengthRepository.save(strength);
     }
 
     public SkillDTO getSkillInfo(User user){
         User user1 = userRepository.findByUsername(user.getUsername());
-        Optional<Skill> skillOptional = skillRepository.findByCreatedBy(user1);
-        if(skillOptional.isPresent()){
-            Skill skill = skillOptional.get();
-            return new SkillDTO(skill.getSkill_1(),skill.getSkill_2(),skill.getSkill_3(),skill.getSkill_4());
-        } else {
-            return new SkillDTO();
-        }
+        SkillDTO skillDTO = mapSkillsToDTO(user1);
+        return skillDTO;
 
     }
 
+    private SkillDTO mapSkillsToDTO(User user) {
+        SkillDTO skillDTO = new SkillDTO();
+
+        for (int i = 1; i <= 4; i++) {
+            Optional<Skill> skillOptional = skillRepository.findByCreatedByAndSkillNumber(user, i);
+
+            if (skillOptional.isPresent()) {
+                Skill skill = skillOptional.get();
+                List<String> skillData = new ArrayList<>();
+                skillData.add(skill.getSkillName());
+                skillData.add(String.valueOf(skill.getSkillValue()));
+                skillDTO.addSkill("skill_" + i, skillData);
+            } else {
+                skillDTO.addSkill("skill_" + i, null);
+            }
+        }
+
+        return skillDTO;
+    }
+
     public void saveSkill(SkillRequest skillRequest, User user){
-        Optional<Skill> skillOptional = skillRepository.findByCreatedBy(user);
+        Optional<Skill> skillOptional = skillRepository.findByCreatedByAndSkillNumber(user, skillRequest.getNumber());
         if(skillOptional.isEmpty()){
             Skill skill = new Skill(skillRequest);
             skillRepository.save(skill);
         } else {
-            Skill skill = skillOptional.get();
-            skill.setSkill(skillRequest);
-            skillRepository.save(skill);
+            throw new ExistEntityException(user.getName(), Skill.class);
         }
     }
 
     public void updateSkill(SkillRequest skillRequest, User user){
-        Skill skill = skillRepository.findByCreatedBy(user)
-                .orElseThrow(() -> new EntityNotFoundException());
+        Skill skill = skillRepository.findByCreatedByAndSkillNumber(user, skillRequest.getNumber())
+                .orElseThrow(() -> new EntityNotFoundException(user.getName(), Skill.class));
         skill.setSkill(skillRequest);
         skillRepository.save(skill);
     }
@@ -105,14 +129,18 @@ public class MainInfoService {
             strengthRepository.save(strength);
         } else {
             Strength strength = strengthOptional.get();
-            strength.setMotto(mottoRequest.getMotto());
-            strengthRepository.save(strength);
+            if(strength.getMotto() != null){
+                throw new BadRequestException();
+            } else {
+                strength.setMotto(mottoRequest.getMotto());
+                strengthRepository.save(strength);
+            }
         }
     }
 
     public void updateMotto(MottoRequest mottoRequest, User user) {
         Strength strength = strengthRepository.findByCreatedBy(user)
-                .orElseThrow(() ->new EntityNotFoundException());
+                .orElseThrow(() ->new EntityNotFoundException(user.getName(), Strength.class));
 
         strength.setMotto(mottoRequest.getMotto());
         strengthRepository.save(strength);
