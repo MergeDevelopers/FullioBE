@@ -11,12 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 public class SkillRequest {
 
-    private List<String> skill_1;
+    private int number;
 
-    private List<String> skill_2;
+    private String skillName;
 
-    private List<String> skill_3;
-
-    private List<String> skill_4;
+    private int skillValue;
 
 }

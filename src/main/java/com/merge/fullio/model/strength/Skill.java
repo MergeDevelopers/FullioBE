@@ -25,36 +25,25 @@ public class Skill extends WriterEntity {
     private long id;
 
     @Column
-    private String skill_1;
+    private int skillNumber;
 
     @Column
-    private String skill_2;
+    private String skillName;
 
     @Column
-    private String skill_3;
-
-    @Column
-    private String skill_4;
+    private int skillValue;
 
     public Skill(SkillRequest skillRequest){
-        this.skill_1 = convertToString(skillRequest.getSkill_1());
-        this.skill_2 = convertToString(skillRequest.getSkill_2());
-        this.skill_3 = convertToString(skillRequest.getSkill_3());
-        this.skill_4 = convertToString(skillRequest.getSkill_4());
+        this.skillNumber = skillRequest.getNumber();
+        this.skillName = skillRequest.getSkillName();
+        this.skillValue = skillRequest.getSkillValue();
     }
+
     public void setSkill(SkillRequest skillRequest){
-        this.skill_1 = convertToString(skillRequest.getSkill_1());
-        this.skill_2 = convertToString(skillRequest.getSkill_2());
-        this.skill_3 = convertToString(skillRequest.getSkill_3());
-        this.skill_4 = convertToString(skillRequest.getSkill_4());
+        this.skillNumber = skillRequest.getNumber();
+        this.skillName = skillRequest.getSkillName();
+        this.skillValue = skillRequest.getSkillValue();
     }
-
-    private String convertToString(List<String> skills){
-        StringBuilder sb = new StringBuilder();
-        String buildSkills = String.valueOf(sb.append(skills.get(0)).append("-").append(skills.get(1)));
-        return buildSkills;
-    }
-
 
 
 }

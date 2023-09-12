@@ -3,6 +3,7 @@ package com.merge.fullio.controller.mainInfo;
 import com.merge.fullio.DTO.strength.*;
 import com.merge.fullio.DTO.user.UserDTO;
 import com.merge.fullio.config.auth.PrincipalDetails;
+import com.merge.fullio.model.strength.Skill;
 import com.merge.fullio.model.user.ResponseData;
 import com.merge.fullio.service.mainInfo.MainInfoService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,17 +24,17 @@ public class MainInfoController {
 
     @GetMapping("/user")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseData<UserDTO> getUserInfo(@AuthenticationPrincipal PrincipalDetails principalDetails){
+    public UserDTO getUserInfo(@AuthenticationPrincipal PrincipalDetails principalDetails){
         UserDTO userDTO = mainInfoService.getUserInfo(principalDetails.getUser());
-        return new ResponseData<>(userDTO);
+        return userDTO;
     }
 
     @GetMapping("/strength")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseData<StrengthDTO> getStrengthInfo(
+    public StrengthDTO getStrengthInfo(
             @AuthenticationPrincipal PrincipalDetails principalDetails){
         StrengthDTO strengthDTO = mainInfoService.getStrengthInfo(principalDetails.getUser());
-        return new ResponseData<>(strengthDTO);
+        return strengthDTO;
     }
 
     @PostMapping("/strength")
