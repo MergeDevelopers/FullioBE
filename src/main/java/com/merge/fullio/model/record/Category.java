@@ -37,7 +37,7 @@ public class Category extends WriterEntity{
         subCategory.setCategory(this);
     }
 
-    private void setCategory(Category category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 

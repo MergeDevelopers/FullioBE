@@ -9,12 +9,12 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    List<Category> findByCreatedBy(User user);
+    Optional<Category> findCategoriesByCreatedByAndLocation(User user, int location);
 
     Optional<Category> findById(long id);
 
     //TODO: 쿼리DSL로 수정하지 않으면 할 수 없나?
     Optional<Category> findByCreatedByAndLocationAndSubCategoriesIsEmpty(User user, int location);
 
-//    Optional<Category> findByCreatedByAndCategoryAndLocation(User user, Long id, int location);
+//    List<Category> findByCreatedByAndCategory(User user);
 }
