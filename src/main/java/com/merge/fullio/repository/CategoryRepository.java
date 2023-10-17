@@ -14,9 +14,15 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Optional<Category> findCategoriesByCreatedByAndLocation(User user, int location);
 
-    Optional<Category> findById(long id);
+    @Query(value = "SELECT C1.id AS id, C1.name AS name, C1.location AS location, C2.id AS categoryId " +
+            "FROM category AS C1 " +
+            "LEFT JOIN category AS C2 " +
+            "ON C1.category_id = C2.id " +
+            "WHERE C1.created_by = :userId " +
+            "ORDER BY C1.category_id", nativeQuery = true)
+    CategoryProjectionResDTO findProjectionById(long id);
 
-    Optional<Category> findByCreatedByAndLocationAndSubCategoriesIsEmpty(User user, int location);
+    Optional<Category> findByCreatedByAndLocationAndCategory(User user, int location, Category category);
 
     List<Category> findCategoriesByCreatedBy(User user);
     @Query(value = "SELECT C1.id AS id, C1.name AS name, C1.location AS location, C2.id AS categoryId " +
@@ -26,5 +32,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
             "WHERE C1.created_by = :userId " +
             "ORDER BY C1.category_id", nativeQuery = true)
     List<CategoryProjectionResDTO> findProjectionCategories(Long userId);
+
+    Long countSubCategoriesByCategoryIdAndCreatedBy(Long categoryId, User user);
 
 }
