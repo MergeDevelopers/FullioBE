@@ -1,6 +1,7 @@
 package com.merge.fullio.service.record;
 
 import com.merge.fullio.DTO.record.CategoryDTO;
+import com.merge.fullio.DTO.record.CategoryProjectionResDTO;
 import com.merge.fullio.DTO.record.CategoryRequest;
 import com.merge.fullio.exception.clienterror._400.BadRequestException;
 import com.merge.fullio.exception.clienterror._400.ExistEntityException;
@@ -96,6 +97,16 @@ public class RecordService {
         categoryRepository.deleteById(id);
     }
 
+    @Transactional
+    public List<CategoryProjectionResDTO> getProjectionCategories(User user) {
+        Optional<Category> category = categoryRepository.findCategoriesByCreatedByAndLocation(user, 0);
+        if(category.isEmpty()) {
+            createDefaultCategory();
+        }
+        List<CategoryProjectionResDTO> categoryProjectionResDTOList = categoryRepository.findProjectionCategories(user.getId());
+        return categoryProjectionResDTOList;
+    }
+
     public CategoryDTO getCategories(User user) {
         Optional<Category> category = categoryRepository.findCategoriesByCreatedByAndLocation(user, 0);
         if(category.isPresent()) {
@@ -118,4 +129,9 @@ public class RecordService {
         }
         return categoryDTO;
     }
+
+//    public List<CategoryListDto> getCategoryList(User user) {
+//        List<Category> categoryList = categoryRepository.findCategoriesByCreatedBy(user);
+//
+//    }
 }

@@ -32,6 +32,9 @@ public class Category extends WriterEntity{
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Category> subCategories = new ArrayList<>();
 
+    @OneToMany
+    private List<Record> records;
+
     public void addSubCategory(Category subCategory) {
         subCategories.add(subCategory);
         subCategory.setCategory(this);
