@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.MethodNotAllowedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +21,19 @@ import java.util.List;
 public class GlobalRestExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseError<String> handleEntityNotFound(EntityNotFoundException ex) {
         return new ResponseError<String> (ex.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseError<String> handleIllegalArgument(IllegalArgumentException ex) {
         return new ResponseError<String> (ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseError<List<String>> handleValidException(MethodArgumentNotValidException ex) {
         ArrayList<String> messageList = new ArrayList<>();
         try {
@@ -47,21 +48,27 @@ public class GlobalRestExceptionHandler {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseError<String> handleBadRequest(BadRequestException ex) {
         return new ResponseError<String> (ex.getMessage());
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseError<String> handleUnAuthorized(UnauthorizedException ex) {
         return new ResponseError<String> (ex.getMessage());
     }
 
     @ExceptionHandler(ForbiddenException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseError<String> handleForbidden(ForbiddenException ex) {
         return new ResponseError<String> (ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodNotAllowedException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseError<String> handleMethodNotAllowed(MethodNotAllowedException ex) {
+        return new ResponseError<>(ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    Optional<Category> findCategoriesByCreatedByAndLocation(User user, int location);
+    boolean existsCategoriesByCreatedByAndLocation(User user, int location);
 
     @Query(value = "SELECT C1.id AS id, C1.name AS name, C1.location AS location, C2.id AS categoryId " +
             "FROM category AS C1 " +
@@ -20,9 +20,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
             "ON C1.category_id = C2.id " +
             "WHERE C1.created_by = :userId " +
             "ORDER BY C1.category_id", nativeQuery = true)
-    CategoryProjectionResDTO findProjectionById(long id);
+    CategoryProjectionResDTO findProjectionById(long userId);
 
-    Optional<Category> findByCreatedByAndLocationAndCategory(User user, int location, Category category);
+    boolean existsByCreatedByAndLocationAndCategory(User user, int location, Category category);
 
     List<Category> findCategoriesByCreatedBy(User user);
     @Query(value = "SELECT C1.id AS id, C1.name AS name, C1.location AS location, C2.id AS categoryId " +

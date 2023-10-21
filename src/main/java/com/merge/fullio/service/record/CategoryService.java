@@ -2,6 +2,7 @@ package com.merge.fullio.service.record;
 
 import com.merge.fullio.DTO.record.CategoryProjectionResDTO;
 import com.merge.fullio.DTO.record.CategoryRequest;
+import com.merge.fullio.exception.BaseResponseStatus;
 import com.merge.fullio.exception.clienterror._400.BadRequestException;
 import com.merge.fullio.exception.clienterror._400.EntityNotFoundException;
 import com.merge.fullio.exception.clienterror._400.ExistEntityException;
@@ -34,17 +35,17 @@ public class CategoryService {
         Optional<Category> topCategory = categoryRepository.findById(id);
         if(topCategory.isPresent()){
             //중복체크 후 없으면 저장
-            Optional<Category> optionalCategory = categoryRepository.findByCreatedByAndLocationAndCategory(user, categoryRequest.getLocation(), topCategory.get());
-            if(optionalCategory.isEmpty()){
+            boolean categoryCheck = categoryRepository.existsByCreatedByAndLocationAndCategory(user, categoryRequest.getLocation(), topCategory.get());
+            if(!categoryCheck){
                 Category subCategory = new Category(categoryRequest.getTitle(), topCategory.get(), categoryRequest.getLocation());
                 topCategory.get().addSubCategory(subCategory);
                 categoryRepository.save(subCategory);
             } else {
-                throw new ExistEntityException();
+                throw new ExistEntityException(BaseResponseStatus.EXIST_ENTITY);
             }
 
         } else {
-            throw new BadRequestException(categoryRequest.getTitle());
+            throw new BadRequestException(BaseResponseStatus.BAD_REQUEST);
         }
     }
 
@@ -53,12 +54,12 @@ public class CategoryService {
     public void changeParentCategory(Long categoryId, Long newTopCategoryId) {
         // 변경할 카테고리를 데이터베이스에서 조회
         Category category = categoryRepository.findById(categoryId).orElseThrow(
-                () -> new EntityNotFoundException(categoryId, Category.class)
+                () -> new EntityNotFoundException(BaseResponseStatus.EXIST_ENTITY)
         );
 
         // 새로운 부모 카테고리를 데이터베이스에서 조회
         Category newTopCategory = categoryRepository.findById(newTopCategoryId).orElseThrow(
-                () -> new EntityNotFoundException(newTopCategoryId, Category.class)
+                () -> new EntityNotFoundException(BaseResponseStatus.ENTITY_NOT_FOUND)
         );
         //저장(더티체킹)
         category.setCategory(newTopCategory);
@@ -68,8 +69,8 @@ public class CategoryService {
     //카테고리 목록을 반환
     @Transactional
     public List<CategoryProjectionResDTO> getProjectionCategories(User user) {
-        Optional<Category> category = categoryRepository.findCategoriesByCreatedByAndLocation(user, 0);
-        if(category.isEmpty()) {
+        boolean categoryCheck = categoryRepository.existsCategoriesByCreatedByAndLocation(user, 0);
+        if(!categoryCheck) {
             createDefaultCategory();
         }
         List<CategoryProjectionResDTO> categoryProjectionResDTOList = categoryRepository.findProjectionCategories(user.getId());
@@ -83,6 +84,7 @@ public class CategoryService {
             categoryRepository.deleteById(categoryId);
         } else {
             //TODO: 하위 카테고리가 있는경우 예외처리
+            throw new BadRequestException(BaseResponseStatus.EXIST_SUB_CATEGORY);
         }
     }
 
