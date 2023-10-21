@@ -3,6 +3,8 @@ package com.merge.fullio.controller.record;
 import com.merge.fullio.DTO.record.CategoryProjectionResDTO;
 import com.merge.fullio.DTO.record.CategoryRequest;
 import com.merge.fullio.config.auth.PrincipalDetails;
+import com.merge.fullio.exception.BaseResponse;
+import com.merge.fullio.exception.BaseResponseStatus;
 import com.merge.fullio.service.record.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,38 +23,40 @@ public class CategoryController {
 
     @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createSubCategory(
+    public CategoryResponse<BaseResponseStatus> createSubCategory(
             @RequestBody CategoryRequest categoryRequest,
             @PathVariable  Long id,
             @AuthenticationPrincipal PrincipalDetails principalDetails){
         categoryService.createSubCategory(principalDetails.getUser(), categoryRequest, id);
+        return new CategoryResponse<>(BaseResponseStatus.CREATE_SUCCESS);
     }
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public List<CategoryProjectionResDTO> getProjectionCategories(
+    public CategoryResponse<List<CategoryProjectionResDTO>> getProjectionCategories(
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<CategoryProjectionResDTO> categoryProjectionResDTOList = categoryService.getProjectionCategories(principalDetails.getUser());
-        return categoryProjectionResDTOList;
+        return new CategoryResponse<>(categoryProjectionResDTOList, BaseResponseStatus.GET_SUCCESS);
     }
 
     @PutMapping("/{topId}/{subId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<CategoryProjectionResDTO> changeTopCategory(
+    public CategoryResponse<List<CategoryProjectionResDTO>> changeTopCategory(
             @PathVariable Long topId,
             @PathVariable Long subId,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         categoryService.changeParentCategory(subId, topId);
         List<CategoryProjectionResDTO> categoryProjectionResDTOList = categoryService.getProjectionCategories(principalDetails.getUser());
-        return categoryProjectionResDTOList;
+        return new CategoryResponse<>(categoryProjectionResDTOList, BaseResponseStatus.UPDATE_SUCCESS);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCategory(
+    public CategoryResponse<BaseResponseStatus> deleteCategory(
             @PathVariable Long id,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         categoryService.deleteCategory(principalDetails.getUser(), id);
+        return new CategoryResponse<>(BaseResponseStatus.DELETE_SUCCESS);
     }
 
 }

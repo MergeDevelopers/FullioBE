@@ -2,6 +2,7 @@ package com.merge.fullio.service.mainInfo;
 
 import com.merge.fullio.DTO.strength.*;
 import com.merge.fullio.DTO.user.UserDTO;
+import com.merge.fullio.exception.BaseResponseStatus;
 import com.merge.fullio.exception.clienterror._400.BadRequestException;
 import com.merge.fullio.exception.clienterror._400.EntityNotFoundException;
 import com.merge.fullio.exception.clienterror._400.ExistEntityException;
@@ -48,11 +49,12 @@ public class MainInfoService {
             Strength strength = new Strength(strengthRequest);
             strengthRepository.save(strength);
         } else {
+            //TODO : 코드 리팩토링
             Strength strength = strengthOptional.get();
             boolean check = Stream.of(strength.getStrength_1(), strength.getStrength_2(), strength.getStrength_3(), strength.getStrength_4(), strength.getStrength_5())
                     .anyMatch(num -> num != null);
             if(check){
-                throw new ExistEntityException(user.getName(), Strength.class);
+                throw new ExistEntityException(BaseResponseStatus.EXIST_ENTITY);
             } else {
                 strength.setStrength(strengthRequest);
                 strengthRepository.save(strength);
@@ -62,7 +64,7 @@ public class MainInfoService {
 
     public void updateStrength(StrengthRequest strengthRequest, User user){
         Strength strength = strengthRepository.findByCreatedBy(user)
-                .orElseThrow(() -> new EntityNotFoundException(user.getName(), Strength.class));
+                .orElseThrow(() -> new EntityNotFoundException(BaseResponseStatus.ENTITY_NOT_FOUND));
         strength.setStrength(strengthRequest);
         strengthRepository.save(strength);
     }
@@ -100,13 +102,13 @@ public class MainInfoService {
             Skill skill = new Skill(skillRequest);
             skillRepository.save(skill);
         } else {
-            throw new ExistEntityException(user.getName(), Skill.class);
+            throw new ExistEntityException(BaseResponseStatus.EXIST_ENTITY);
         }
     }
 
     public void updateSkill(SkillRequest skillRequest, User user){
         Skill skill = skillRepository.findByCreatedByAndSkillNumber(user, skillRequest.getNumber())
-                .orElseThrow(() -> new EntityNotFoundException(user.getName(), Skill.class));
+                .orElseThrow(() -> new EntityNotFoundException(BaseResponseStatus.ENTITY_NOT_FOUND));
         skill.setSkill(skillRequest);
         skillRepository.save(skill);
     }
@@ -129,7 +131,7 @@ public class MainInfoService {
         } else {
             Strength strength = strengthOptional.get();
             if(strength.getMotto() != null){
-                throw new BadRequestException();
+                throw new BadRequestException(BaseResponseStatus.BAD_REQUEST);
             } else {
                 strength.setMotto(mottoRequest.getMotto());
                 strengthRepository.save(strength);
@@ -139,7 +141,7 @@ public class MainInfoService {
 
     public void updateMotto(MottoRequest mottoRequest, User user) {
         Strength strength = strengthRepository.findByCreatedBy(user)
-                .orElseThrow(() ->new EntityNotFoundException(user.getName(), Strength.class));
+                .orElseThrow(() ->new EntityNotFoundException(BaseResponseStatus.ENTITY_NOT_FOUND));
 
         strength.setMotto(mottoRequest.getMotto());
         strengthRepository.save(strength);

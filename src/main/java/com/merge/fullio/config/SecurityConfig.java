@@ -42,7 +42,7 @@ public class SecurityConfig {
         http.formLogin(AbstractHttpConfigurer :: disable);
         http.httpBasic(AbstractHttpConfigurer :: disable);
         http.apply(new MyCustomDsl());
-        http.authorizeHttpRequests(authrize -> authrize
+        http.authorizeHttpRequests(authorize -> authorize
             .requestMatchers("/api/v1/user/**").hasAnyRole("USER", "MANAGER", "ADMIN")
             .requestMatchers("/api/v1/manager/**").hasAnyRole("MANAGER", "ADMIN")
             .requestMatchers("/api/v1/admin/**").hasAnyRole("ADMIN")

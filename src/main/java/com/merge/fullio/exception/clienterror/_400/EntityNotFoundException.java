@@ -1,11 +1,23 @@
 package com.merge.fullio.exception.clienterror._400;
 
+import com.merge.fullio.exception.BaseExceptionDto;
+import com.merge.fullio.exception.BaseResponseStatus;
 import lombok.Getter;
 
 @Getter
 public class EntityNotFoundException extends BadRequestException {
 
     private Object key;
+
+    private BaseExceptionDto baseExceptionDto;
+
+    public EntityNotFoundException(BaseResponseStatus baseResponseStatus){
+        this.baseExceptionDto = BaseExceptionDto.builder()
+                .error(baseResponseStatus.isError())
+                .code(baseResponseStatus.getCode())
+                .message(baseResponseStatus.getMessage())
+                .build();
+    }
 
     public EntityNotFoundException () {}
 
