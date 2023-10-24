@@ -1,23 +1,20 @@
-package com.merge.fullio.exception.clienterror._401;
+package com.merge.fullio.exception.clienterror._405;
 
 import com.merge.fullio.exception.BaseExceptionDto;
 import com.merge.fullio.exception.BaseResponseStatus;
+import lombok.Getter;
 
-public class UnauthorizedException extends RuntimeException {
+@Getter
+public class MethodNotAllowedException extends RuntimeException {
 
     private BaseExceptionDto baseExceptionDto;
 
-    public UnauthorizedException(BaseResponseStatus baseResponseStatus){
+    public MethodNotAllowedException(BaseResponseStatus baseResponseStatus){
         this.baseExceptionDto = BaseExceptionDto.builder()
                 .error(baseResponseStatus.isError())
                 .code(baseResponseStatus.getCode())
                 .message(baseResponseStatus.getMessage())
                 .build();
-    }
-    public UnauthorizedException() {}
-
-    public UnauthorizedException(String message) {
-        super(message);
     }
 
     @Override

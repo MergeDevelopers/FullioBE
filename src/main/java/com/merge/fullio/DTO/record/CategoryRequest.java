@@ -1,4 +1,4 @@
-package com.merge.fullio.model.user;
+package com.merge.fullio.DTO.record;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseData <T>{
+public class CategoryRequest {
 
-    private T data;
+    private String title;
+
+    private int location;
 
 }
-
