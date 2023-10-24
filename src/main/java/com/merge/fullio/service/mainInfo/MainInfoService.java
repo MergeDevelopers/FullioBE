@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -44,15 +43,15 @@ public class MainInfoService {
     }
 
     public void saveStrength(StrengthRequest strengthRequest, User user){
-        Optional<Strength> strengthOptional = strengthRepository.findByCreatedBy(user);
-        if(strengthOptional.isEmpty()){
+        boolean entityCheck = strengthRepository.existsByCreatedBy(user);
+        if(!entityCheck){
             Strength strength = new Strength(strengthRequest);
             strengthRepository.save(strength);
         } else {
-            //TODO : 코드 리팩토링
-            Strength strength = strengthOptional.get();
-            boolean check = Stream.of(strength.getStrength_1(), strength.getStrength_2(), strength.getStrength_3(), strength.getStrength_4(), strength.getStrength_5())
-                    .anyMatch(num -> num != null);
+            Strength strength = strengthRepository.findByCreatedBy(user).orElseThrow(
+                    () -> new EntityNotFoundException(BaseResponseStatus.ENTITY_NOT_FOUND)
+            );
+            boolean check = strengthRepository.existsStrengthByCreatedBy(user);
             if(check){
                 throw new ExistEntityException(BaseResponseStatus.EXIST_ENTITY);
             } else {
