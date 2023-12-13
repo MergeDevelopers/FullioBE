@@ -6,7 +6,7 @@ import com.merge.fullio.exception.BaseResponseStatus;
 import com.merge.fullio.exception.clienterror._400.BadRequestException;
 import com.merge.fullio.exception.clienterror._400.EntityNotFoundException;
 import com.merge.fullio.exception.clienterror._400.ExistEntityException;
-import com.merge.fullio.model.record.Category;
+import com.merge.fullio.model.records.Category;
 import com.merge.fullio.model.user.User;
 import com.merge.fullio.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;

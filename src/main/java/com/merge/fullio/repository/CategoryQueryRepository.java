@@ -1,6 +1,6 @@
 package com.merge.fullio.repository;
 
-import com.merge.fullio.model.record.Category;
+import com.merge.fullio.model.records.Category;
 import com.merge.fullio.util.Querydsl4RepositorySupport;
 import org.springframework.stereotype.Repository;
 

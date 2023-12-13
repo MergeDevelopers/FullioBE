@@ -1,4 +1,4 @@
-package com.merge.fullio.model.record;
+package com.merge.fullio.model.records;
 
 import com.merge.fullio.model.WriterEntity;
 import jakarta.persistence.*;
@@ -6,23 +6,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Record extends WriterEntity {
+@Entity
+public class Comments extends WriterEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column
-    private String title;
+    private Long id;
 
     @Column(columnDefinition = "TEXT")
-    private String content;
+    private String comment;
 
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "records_id")
     @ManyToOne
-    private Category category;
+    private Records records;
+
+    public Comments(String comment, Records records) {
+        this.comment = comment;
+        this.records = records;
+    }
 }

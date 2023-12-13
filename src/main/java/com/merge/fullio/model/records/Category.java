@@ -1,6 +1,5 @@
-package com.merge.fullio.model.record;
+package com.merge.fullio.model.records;
 
-import com.merge.fullio.DTO.record.CategoryRequest;
 import com.merge.fullio.model.WriterEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,7 +32,7 @@ public class Category extends WriterEntity{
     private List<Category> subCategories = new ArrayList<>();
 
     @OneToMany
-    private List<Record> records;
+    private List<Records> records;
 
     public void addSubCategory(Category subCategory) {
         subCategories.add(subCategory);

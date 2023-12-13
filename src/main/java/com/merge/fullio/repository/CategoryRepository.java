@@ -1,14 +1,12 @@
 package com.merge.fullio.repository;
 
 import com.merge.fullio.DTO.record.CategoryProjectionResDTO;
-import com.merge.fullio.model.record.Category;
+import com.merge.fullio.model.records.Category;
 import com.merge.fullio.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
